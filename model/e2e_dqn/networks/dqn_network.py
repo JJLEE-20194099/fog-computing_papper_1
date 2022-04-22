@@ -4,7 +4,6 @@ from tensorflow.keras.layers import (Activation, Concatenate, Dense, Dropout,
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.optimizers import Adam
 from e2e_dqn.agent.agent import Agent
-from policy import EpsGreedyQPolicy
 from model.e2e_dqn.environment.config import Config
 from rl.memory import SequentialMemory
 

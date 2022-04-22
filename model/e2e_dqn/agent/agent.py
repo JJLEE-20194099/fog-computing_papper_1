@@ -1,13 +1,13 @@
+from environment.env import Environment
+from networks.dqn_network import DQNNetwork
+from utils.memory import ReplayMemory, Transition
+
+from datetime import datetime
 from collections import deque
 import gym
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.optimizers import Adam
-from e2e_dqn.environment.env import Environment
-from e2e_dqn.networks.dqn_network import DQNNetwork
-from e2e_dqn.utils.memory import ReplayMemory, Transition
-from datetime import datetime
-
 
 class Agent():
     def __init__(self, name="E2E-DRL"):

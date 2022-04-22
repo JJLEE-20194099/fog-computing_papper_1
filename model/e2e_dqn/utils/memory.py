@@ -2,7 +2,7 @@ from collections import namedtuple
 import random
 from logger import logger
 import tensorflow as tf
-import numpyas as np
+import numpy as np
 
 Transisiton = namedtuple("Transition", ("state", "action", "reward", "next_state", "terminal"))
 
@@ -36,7 +36,7 @@ class ReplayMemory:
         return self._full
     
     def push(self, state, action, reward, next_state, terminal):
-        trsn = Transition(state, action, reward, next_state, terminal)
+        trsn = Transisiton(state, action, reward, next_state, terminal)
         if len(self._memory) < self.capacity:
             self._memory.append(None)
         
@@ -50,10 +50,10 @@ class ReplayMemory:
     
     def get_minibatch_indicies(self):
         indicies = []
-        while len(indices) < self.minibatch_size:
+        while len(indicies) < self.minibatch_size:
             while True:
                 if self.is_full():
-                    index = np.random.randint(low=self.history_length, high = self.capcity, dtype=np.int32)
+                    index = np.random.randint(low=self.history_length, high = self.capacity, dtype=np.int32)
                 else:
                     index = np.random.randint(low=self.history_length, high=self.cur_index, dtype=np.int32)
                 
@@ -71,7 +71,7 @@ class ReplayMemory:
             selected_mem = self._memory[index]
             state_batch.append(tf.constant(selected_mem.state, tf.float32))
             action_batch.append(tf.constant(selected_mem.action, tf.float32))
-            reward.append(tf.constant(selected_mem.reward, tf.float32))
+            reward_batch.append(tf.constant(selected_mem.reward, tf.float32))
             next_state_batch.append(tf.constant(selected_mem.next_state, tf.float32))
             terminal_batch.append(tf.constant(selected_mem.terminal, tf.float32))
 

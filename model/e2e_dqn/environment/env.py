@@ -5,7 +5,12 @@ from gym import spaces
 from gym.utils import seeding
 import copy
 import os
+import sys
+sys.path.insert(1, 'D:/long.lt20194099/Lab/Cô Bình/Delay_Aware_And_Energy/')
+
 from model.e2e_dqn.environment.config import Config
+
+
 from data.servers.config import Config
 import pandas as pd
 

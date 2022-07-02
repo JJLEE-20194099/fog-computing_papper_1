@@ -1,7 +1,10 @@
+import sys
+sys.path.insert(1, 'D:/long.lt20194099/Lab/Cô Bình/Delay_Aware_And_Energy/')
+
 import random as rd
 import numpy as np
 import os
-from model.e2e_dqn.environment.config import Config
+from data.task.config import Config
 import random as rd
 
 class Generate:

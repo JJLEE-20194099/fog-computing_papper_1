@@ -1,6 +1,9 @@
-from environment.env import Environment
-from networks.dqn_network import DQNNetwork
-from utils.memory import ReplayMemory, Transition
+import sys
+sys.path.insert(1, 'D:/long.lt20194099/Lab/Cô Bình/Delay_Aware_And_Energy/')
+
+from model.e2e_dqn.environment.env import Environment
+from model.e2e_dqn.networks.dqn_network import DQNNetwork
+from model.e2e_dqn.utils.memory import ReplayMemory, Transition
 
 from datetime import datetime
 from collections import deque

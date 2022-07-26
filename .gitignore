@@ -1,2 +1,5 @@
 data/task/timeslot_datasets_10
 data/task/timeslot_datasets_1000
+log
+log_greedy
+normal_log

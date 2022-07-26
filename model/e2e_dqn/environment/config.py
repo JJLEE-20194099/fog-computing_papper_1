@@ -8,8 +8,8 @@ class Config:
     batch_size=256
     rayleigh_fading = 0.02
     f_task_energy_trade_off_coef = 0.5
-    computing_comsumption_coef = 10e-26
-    beta_1 = 1
+    computing_comsumption_coef = 10e-19
+    beta_1 = 4
     beta_2 = 1
 
 

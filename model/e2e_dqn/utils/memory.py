@@ -4,21 +4,21 @@ from logger import logger
 import tensorflow as tf
 import numpy as np
 
-Transisiton = namedtuple("Transition", ("state", "action", "reward", "next_state", "terminal"))
+Transition = namedtuple("Transition", ("state", "action", "reward", "next_state", "terminal"))
 
 class ReplayMemory:
     def __init__(self, capacity, state_shape=(84, 84), history_length=4, minibatch_size=32, verbose=True):
         self.capacity = int(capacity)
-        self.history_length = int(history_length)
-        self.minibatch_size = int(minibatch_size)
+        self.history_length = history_length
+        self.minibatch_size = minibatch_size
         self._memory = []
         self._index = 0
         self._full = False
         self.verbose = verbose
     
         if verbose:
-            total_est_mem = self.capacity * (np.prod(state_shape) * 4 * 2 + 4 + 4 + 1) / 1024 ** 3
-            logger.info("Estimated memory useage ONLY for storing replays: {:.4f} GB".format(total_est_mem))
+            self.total_est_mem = self.capacity * (np.prod(state_shape) * 4 * 2 + 4 + 4 + 1) / 1024 ** 3
+            logger.info("Estimated memory useage ONLY for storing replays: {:.4f} GB".format(self.total_est_mem))
     
     def __len__(self):
         return len(self._memory)
@@ -27,7 +27,7 @@ class ReplayMemory:
         return self._memory[key]
     
     def __repr__(self):
-        return self.__class__.__name___ + "({})".format(total_est_mem)
+        return self.__class__.__name___ + "({})".format(self.total_est_mem)
     
     def cur_index(self):
         return self._index
@@ -36,7 +36,7 @@ class ReplayMemory:
         return self._full
     
     def push(self, state, action, reward, next_state, terminal):
-        trsn = Transisiton(state, action, reward, next_state, terminal)
+        trsn = Transition(state, action, reward, next_state, terminal)
         if len(self._memory) < self.capacity:
             self._memory.append(None)
         
@@ -53,9 +53,9 @@ class ReplayMemory:
         while len(indicies) < self.minibatch_size:
             while True:
                 if self.is_full():
-                    index = np.random.randint(low=self.history_length, high = self.capacity, dtype=np.int32)
+                    index = np.random.randint(low=self.history_length, high=self.capacity, dtype=np.int32)
                 else:
-                    index = np.random.randint(low=self.history_length, high=self.cur_index, dtype=np.int32)
+                    index = np.random.randint(low=self.history_length, high=self._index, dtype=np.int32)
                 
                 if np.any([sample.terminal for sample in self._memory[index - self.history_length:index]]):
                     continue
@@ -75,5 +75,5 @@ class ReplayMemory:
             next_state_batch.append(tf.constant(selected_mem.next_state, tf.float32))
             terminal_batch.append(tf.constant(selected_mem.terminal, tf.float32))
 
-        return tf.stack(state_batch, axis=0), tf.stack(action_batch, axis=0), tf.stack(reward_batch, axis=0), tf.stack(terminal_batch, axis=0)
+        return tf.stack(state_batch, axis=0), tf.stack(action_batch, axis=0), tf.stack(reward_batch, axis=0), tf.stack(next_state_batch, axis=0), tf.stack(terminal_batch, axis=0)
         

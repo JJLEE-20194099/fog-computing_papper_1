@@ -1,6 +1,9 @@
 from turtle import window_width
 import numpy as np
 
+import sys
+sys.path.insert(1, '/content/drive/MyDrive/fog_computing/delay_aware_and_energy/')
+
 from model.e2e_dqn.environment.env import Environment
 from model.e2e_dqn.networks.dqn_network import DQNNetwork
 from model.e2e_dqn.agent.agent import Agent
